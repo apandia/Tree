@@ -71,9 +71,8 @@ void preOrderPrint(Node *root)
 }
 
 //Driver function
-int main() {
-
-	//node* root = buildTree();
+int main() 
+{
 	Node* root = buildTree();
 
 	cout << "Inorder Print: " << endl;
