@@ -36,7 +36,6 @@ bool checkSymmetricalTree(Node* root)
 {
 	if (root == nullptr)
 	{
-		bool test = (!root);
 		return true;
 	}
 		
