@@ -7,120 +7,97 @@ using namespace std;
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
 /*Level Order Traversal Input
-1
-2 3
-4 5
-6 7
--1 -1
--1 -1 
--1 -1
--1 -1
-*/
-Node* buildTree()
-{
+      1
+    /   \
+   2     3
+  / \   / \
+ 4   5 6   7
 
-	int d;
-	cin >> d;
-
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
-
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
-
-		int c1, c2;
-		cin >> c1 >> c2;
-
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
-
-	return root;
-}
-
-
-/*Level Order Traversal Expected Output
+output:
 1
 2 3
 4 5 6 7
 */
+//TC: O(N)
+//SC: O(N)
 vector<vector<int>> levelOrder(Node *root)
 {
-	vector<vector<int>> ans;
+    vector<vector<int>> ans;
 
-	if (root == nullptr)
-		return ans;
+    if (root == nullptr)
+        return ans;
 
-	queue<Node*> q;
-	q.push(root);
+    queue<Node*> q;
+    q.push(root);
 
-	while (!q.empty())
-	{
-		int size = q.size();
-		vector<int> currLevelData;
+    while (!q.empty())
+    {
+        int size = q.size();
+        vector<int> currLevelData;
 
-		for (int counter = 0; counter < size; counter++)
-		{
-			Node* current = q.front();
-			q.pop();
+        for (int counter = 0; counter < size; counter++)
+        {
+            Node* current = q.front();
+            q.pop();
 
-			if (current->left != nullptr) {
-				q.push(current->left);
-			}
+            if (current->left != nullptr) {
+                q.push(current->left);
+            }
 
-			if (current->right != nullptr) {
-				q.push(current->right);
-			}
+            if (current->right != nullptr) {
+                q.push(current->right);
+            }
 
-			currLevelData.push_back(current->data);
-			cout << current->data << " ";
-		}
+            currLevelData.push_back(current->data);
+            //cout << current->data << " ";
+        }
 
-		cout << endl;
+        //cout << endl;
 
-		ans.push_back(currLevelData);
-	}
+        ans.push_back(currLevelData);
+    }
 
-	return ans;
+    return ans;
 }
 
 //Driver function
 int main()
 {
-	Node* root = buildTree();
+    Node* root = new Node(1);
 
-	cout << "Levelorder Traversal Print: " << endl;
-	vector<vector<int>> lo =  levelOrder(root);
+    root->left = new Node(2);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
 
-	for (int i = 0; i < lo.size(); i++)
-	{
-		vector<int> level = lo[i];
-		for (int j = 0; j < level.size(); j++)
-		{
-			cout << level[j] << " ";
-		}
-		cout << endl;
-	}
+    root->right = new Node(3);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
 
-	return 0;
+    cout << "Levelorder Traversal Print: " << endl;
+    vector<vector<int>> lo =  levelOrder(root);
+
+    for (int i = 0; i < lo.size(); i++)
+    {
+        vector<int> level = lo[i];
+        for (int j = 0; j < level.size(); j++)
+        {
+            cout << level[j] << " ";
+        }
+        cout << endl;
+    }
+
+
+    return 0;
 }
