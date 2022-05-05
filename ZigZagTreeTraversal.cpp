@@ -1,138 +1,117 @@
 #include<iostream>
 #include<queue>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/*Tree2
+/*Zigzag Order Traversal
+Input:
       1
     /   \
-   2      3
-  /  \   / \
- 4    5 6   7
-*/
-
-/*Tree Input
+   2     3
+  / \   / \
+ 4   5 6   7
+          / \
+         8   9
+Output:
 1
-2 3
-4 5
-6 7
--1 -1
--1 -1
--1 -1
--1 -1
+3 2
+4 5 6 7
+9 8
 */
-Node* buildTree()
+//TC: O(N)
+//SC: O(N)
+vector<vector<int>> zigZagTraversal(Node *root)
 {
-	int d;
-	cin >> d;
+    vector<vector<int>> ans;
 
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
+    if (root == nullptr)
+        return ans;
 
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
+    queue<Node*> q;
+    q.push(root);
+    int currentLevel = 0;
 
-		int c1, c2;
-		cin >> c1 >> c2;
+    while (!q.empty())
+    {
+        int size = q.size();
+        vector<int> currLevelData;
 
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
+        for (int counter = 0; counter < size; counter++)
+        {
+            Node* current = q.front();
+            q.pop();
 
-	return root;
+            if (current->left != nullptr) {
+                q.push(current->left);
+            }
+
+            if (current->right != nullptr) {
+                q.push(current->right);
+            }
+
+            currLevelData.push_back(current->data);
+            //cout << current->data << " ";
+        }
+
+        //cout << endl;
+
+        if(currentLevel %2 != 0 )
+        {
+            reverse(currLevelData.begin(), currLevelData.end());
+        }
+
+        currentLevel++;
+
+        ans.push_back(currLevelData);
+    }
+
+    return ans;
 }
-
-vector<vector<int>> zigZagTraversal(Node* root)
-{
-	vector<vector<int>> ans;
-
-	if (root == nullptr)
-	{
-		return ans;
-	}
-
-	queue<Node*> q;
-	q.push(root);
-
-	bool zigZag = false;
-
-	while (!q.empty())
-	{
-		int size = q.size();
-		vector<int> level;
-
-		for (int counter = 0; counter < size; counter++)
-		{
-			Node* current = q.front();
-			q.pop();			
-
-			if (current->left != nullptr) 
-			{
-				q.push(current->left);
-			}
-
-			if (current->right != nullptr)
-			{
-				q.push(current->right);
-			}
-
-			level.push_back(current->data);
-		}
-
-		if (zigZag == false) {
-			ans.push_back(level);
-			zigZag = true;
-		}
-		else {
-			reverse(level.begin(), level.end());
-			ans.push_back(level);
-			zigZag = false;
-		}	
-	}
-
-	return ans;
-}
-
 
 //Driver function
-int main() {
-	Node* root = buildTree();
+int main()
+{
+    Node* root = new Node(1);
 
-	cout << "Levelorder Traversal Print: " << endl;
-	vector<vector<int>> lo = zigZagTraversal(root);
+    root->left = new Node(2);
+    root->left->left = new Node(4);
+    root->left->right = new Node(5);
 
-	for (int i = 0; i < lo.size(); i++)
-	{
-		vector<int> level = lo[i];
-		for (int j = 0; j < level.size(); j++)
-		{
-			cout << level[j] << " ";
-		}
-		cout << endl;
-	}
+    root->right = new Node(3);
+    root->right->left = new Node(6);
+    root->right->right = new Node(7);
+    root->right->right->left = new Node(8);
+    root->right->right->right = new Node(9);
 
-	return 0;
+    cout << "ZigZag Traversal: " << endl;
+    vector<vector<int>> lo =  zigZagTraversal(root);
+
+    for (int i = 0; i < lo.size(); i++)
+    {
+        vector<int> level = lo[i];
+        for (int j = 0; j < level.size(); j++)
+        {
+            cout << level[j] << " ";
+        }
+        cout << endl;
+    }
+
+
+    return 0;
 }
