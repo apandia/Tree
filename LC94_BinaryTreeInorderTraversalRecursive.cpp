@@ -10,7 +10,7 @@
  * };
  */
  //TC: O(N)
- //SC: O(h) where h = height of binary tree as at most "h" number of elements possible at stack at any given point
+ //SC: O(h) where h = height of binary tree as at most "h" number of elements will be at stack at any given point
 class Solution {
 public:
     void inorderHelper(TreeNode* node, vector<int>& result)
