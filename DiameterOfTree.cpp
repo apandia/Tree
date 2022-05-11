@@ -1,105 +1,81 @@
 #include<iostream>
-#include<queue>
+#include<stack>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/*Tree
-	    1
-      /   \
-    2       3
-          /   \
-        4       7
-       /         \
-      5           8
-     /             \
-    6               9
+/*Binary Tree
+Input:
+       1
+      / \
+     2   3
+        / \
+       4   7
+      /     \
+     5       8
+    /         \
+   6           9
 */
 
-/*Tree Input
-1
-2 3
--1 -1
-4 7
-5 -1
--1 8
-6 -1
--1 9
--1 -1
--1 -1
-*/
-Node* buildTree()
+//Diameter of Tree : 6 (6->5->4->3->7->8->9)
+/** Complexity:
+  * TC: O(N)
+  * SC: O(N)
+ **/
+int getTreeHeight(Node* root, int& diameter)
 {
+    if(root == nullptr)
+        return 0;
 
-	int d;
-	cin >> d;
+    int leftHeight = getTreeHeight(root->left, diameter);
+    int rightHeight = getTreeHeight(root->right, diameter);
 
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
+    diameter = max(leftHeight+rightHeight, diameter);
 
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
-
-		int c1, c2;
-		cin >> c1 >> c2;
-
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
-
-	return root;
+    return 1 + max(leftHeight, rightHeight);
 }
 
-int getHeight(Node* root, int& maxDiameter)
+int getTreeDiameter(Node* root)
 {
-	if (root == nullptr)
-	{
-		return 0;
-	}
+    int diameter = 0;
 
-	int lh = getHeight(root->left, maxDiameter);
-	int rh = getHeight(root->right, maxDiameter);
+    int height = getTreeHeight(root, diameter);
 
-	maxDiameter = max(maxDiameter, lh + rh);
-
-	return 1 + max(lh, rh);
-}
-
-int getDiameter(Node* root)
-{
-	int diameter = 0;
-	int height = getHeight(root, diameter);
-	return diameter;
+    return diameter;
 }
 
 //Driver function
-int main() {
+int main()
+{
+    Node* root = new Node(1);
 
-	Node* root = buildTree();
+    root->left = new Node(2);
 
-	cout << "Height of Tree = " << getDiameter(root) << endl;
+    root->right = new Node(3);
+    root->right->left = new Node(4);
+    root->right->left->left = new Node(5);
+    root->right->left->left->left = new Node(6);
 
-	return 0;
+    root->right->right = new Node(7);
+    root->right->right->right = new Node(8);
+    root->right->right->right->right = new Node(9);
+
+    cout<<"Diameter of Tree = "<<getTreeDiameter(root)<<endl;
+
+    return 0;
 }
