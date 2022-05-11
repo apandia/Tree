@@ -30,7 +30,7 @@ Input:
          8   9
 */
 
-//Output : 4
+//Output : "Tree is balanced"
 /** Complexity:
   * TC: O(N)
   * SC: O(N) for skewed tree
