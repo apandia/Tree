@@ -1,115 +1,70 @@
 #include<iostream>
-#include<queue>
+#include<stack>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/*Tree1
-    -10
-   /   \
-  9     20
+/*Binary Tree
+Input:
+       -10
        /  \
-      15   7
+      9   20
+         /  \
+        15   7
 */
 
-/*Tree Input
--10
-9 20
--1 -1
-15 7
--1 -1
--1 -1
-*/
+//Max Path Sum : 42 (15->20->7)
 
-/*Tree2
-    15
-   /   \
- 10     20
-       /  \
-     -15   -30
-*/
-
-/*Tree Input
-15
-10 20
--1 -1
--15 -30
--1 -1
--1 -1
-*/
-Node* buildTree()
+int getPathSum(Node* root, int& maxSum)
 {
-	int d;
-	cin >> d;
+    if(root == nullptr)
+        return 0;
 
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
+    int leftPathSum = getPathSum(root->left, maxSum);
+    int rightPathSum = getPathSum(root->right, maxSum);
 
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
+    maxSum = max(maxSum, leftPathSum + rightPathSum + root->data);
 
-		int c1, c2;
-		cin >> c1 >> c2;
+    return root->data + max(leftPathSum, rightPathSum);
 
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
-
-	return root;
 }
 
-int getMaxPathSum(Node* root, int& maxSum)
+int maxPathSum(Node* root)
 {
-	if (root == nullptr)
-	{
-		return 0;
-	}
+    int maxPathSum = INT_MIN;
 
-	//If the left or right sum return negative then consider 0;
-	//So that we can address scenario like Tree2 above.
-	int leftSum = max(0, getMaxPathSum(root->left, maxSum));
-	int rightSum = max(0, getMaxPathSum(root->right, maxSum));
+    getPathSum(root, maxPathSum);
 
-	maxSum = max(maxSum, (leftSum + rightSum + root->data));
-
-	return root->data + max(leftSum, rightSum);
-}
-
-int getMaxSum(Node* root)
-{
-	int maxSum = 0;
-	int sum = getMaxPathSum(root, maxSum);
-	return maxSum;
+    return maxPathSum;
 }
 
 //Driver function
-int main() {
+int main()
+{
+    Node* root = new Node(-10);
 
-	Node* root = buildTree();
+    root->left = new Node(9);
 
-	cout << "Max path Sum = " << getMaxSum(root) << endl;
+    root->right = new Node(20);
+    root->right->left = new Node(15);
+    root->right->right = new Node(7);
 
-	return 0;
+    cout<<"Max path Sum = "<<maxPathSum(root)<<endl;
+
+    return 0;
 }
