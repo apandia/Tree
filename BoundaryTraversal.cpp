@@ -1,129 +1,134 @@
-#include<iostream>
-#include<queue>
+#include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
+
+/*Boundary Traversal Of Binary Tree
+Input Tree:
+        1
+       / \
+      2   3
+       \   \
+        4   5
+       /   / \
+      6   7   8
+*/
+//Output: 1 2 4 6 7 8 5 3
 
 bool isLeafNode(Node* node)
 {
-	bool val1 = ((node->left == nullptr) && (node->right == nullptr));
-	bool val2 = (node->left && node->right );
-	bool val3 = (!node->left && !node->right);
-
-	return ((node->left == nullptr) && (node->right == nullptr));
+    return ((node->left == nullptr) && (node->right == nullptr));
 }
 
-void addLeftBoundary(Node* root, vector<int>& result)
+void addLeftBoundary(Node* root, vector<int>& ans)
 {
-	Node* current = root->left;
-	while (current)
-	{
-		if (!isLeafNode(current)) {
-			result.push_back(current->data);
-		}
+    Node* curr = root->left;
 
-		if (current->left)
-			current = current->left;
-		else
-			current = current->right;
-	}
+    while(curr)
+    {
+        if(!isLeafNode(curr))
+            ans.push_back(curr->data);
+
+        if(curr->left != nullptr)
+            curr = curr->left;
+        else
+            curr = curr->right;
+    }
 }
 
-void addLeftNodes(Node* root, vector<int>& result)
+void addLeafNodes(Node* root, vector<int>& ans)
 {
-	if (isLeafNode(root)) {
-		result.push_back(root->data);
-		return;
-	}
+    if(isLeafNode(root))
+    {
+        ans.push_back(root->data);
+        return;
+    }
 
-	if (root->left)
-		addLeftNodes(root->left, result);
+    if(root->left !=nullptr)
+        addLeafNodes(root->left, ans);
 
-	if (root->right)
-		addLeftNodes(root->right, result);
+    if(root->right !=nullptr)
+        addLeafNodes(root->right, ans);
 }
 
-void  addRightBoundary(Node* root, vector<int>& result)
+void addRightBoundary(Node* root, vector<int>& ans)
 {
-	Node* current = root->right;
-	vector<int> temp;
-	while (current)
-	{
-		if (!isLeafNode(current)) {
-			temp.push_back(current->data);
-		}
+    Node* curr = root->right;
+    vector<int> tmp;
 
-		if (current->right)
-			current = current->right;
-		else
-			current = current->left;
-	}
+    while(curr)
+    {
+        if(!isLeafNode(curr))
+            tmp.push_back(curr->data);
 
-	for (int counter = temp.size()-1; counter >= 0; counter--) {
-		result.push_back(temp[counter]);
-	}
+        if(curr->right != nullptr)
+            curr = curr->right;
+        else
+            curr = curr->left;
+    }
+
+    for(int i = tmp.size()-1; i >= 0; i--)
+        ans.push_back(tmp[i]);
 }
 
-void printBoundary(Node* root)
+//Approach :
+//1. Add left subtree exluding leaf - O(H)
+//2. Add leaf nodes using preorder traversal - O(N)
+//3. Add right subtree excluding leaf in reverse order - O(H)
+//TC: O(H) + O(N) + O(H) ~ O(N)
+//SX: O(N)
+vector<int> boundaryTraversal(Node* root)
 {
-	if (root == nullptr)
-		return;
+    vector<int> ans;
 
-	vector<int> result;
+    if(root == nullptr)
+        return ans;
 
-	if (!isLeafNode(root)) {
-		result.push_back(root->data);
-	}
+    if(!isLeafNode(root))
+        ans.push_back(root->data);
 
-	addLeftBoundary(root, result);
-	addLeftNodes(root, result);
-	addRightBoundary(root, result);
+    addLeftBoundary(root, ans);
+    addLeafNodes(root, ans);
+    addRightBoundary(root, ans);
 
-	//print the result
-	for (int data : result)
-		cout << data << " ";
+    return ans;
 }
 
 //Driver function
 int main()
 {
-	/*		1
-		  /   \
-		2		5
-	  /		  /
-	3		6
-	 \	   / \
-	  4   7	  8
+    Node* root = new Node(1);
 
-    output - 1 2 3 4 7 8 6 5
-	*/
-	
-	Node* root = new Node(1);
-	
-	root->left = new Node(2);
-	root->left->left = new Node(3);
-	root->left->left->right = new Node(4);
+    root->left = new Node(2);
+    root->left->right = new Node(4);
+    root->left->right->left = new Node(6);
 
-	root->right = new Node(5);
-	root->right->left = new Node(6);
-	root->right->left->left = new Node(7);
-	root->right->left->right = new Node(8);
+    root->right = new Node(3);
+    root->right->right = new Node(5);
+    root->right->right->left = new Node(7);
+    root->right->right->right = new Node(8);
 
-	printBoundary(root);	
+    cout<<"Boundary Traversal: ";
+    vector<int> bt = boundaryTraversal(root);
+    for(auto val: bt)
+        cout<< val << " ";
 
-	return 0;
+    cout<<endl;
+
+    return 0;
 }
