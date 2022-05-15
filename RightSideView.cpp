@@ -79,22 +79,25 @@ void getRightSideView(Node* root)
      queue<pair<Node*, int>> q; //Pair of node and level
      q.push({root, 0});
 
-     map<int, int> m;//map for level and data
+     map<int, int> m;//map for level(key) and node value(data)
 
      while(!q.empty())
      {
          auto it = q.front();
          q.pop();
 
-         if(!m.count(it.second)){
-             m[it.second] = it.first->data;
+         Node* current = it.first;
+         int level = it.second;
+
+         if(!m.count(level)){
+             m[level] = current->data;
          }
 
-         if(it.first->right != nullptr)
-             q.push({it.first->right, it.second+1});
+         if(current->right != nullptr)
+             q.push({current->right, level+1});
 
-         if(it.first->left != nullptr)
-             q.push({it.first->left, it.second+1});
+         if(current->left != nullptr)
+             q.push({current->left, level+1});
      }
 
      for(auto val : m){
