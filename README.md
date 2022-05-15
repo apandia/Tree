@@ -11,11 +11,13 @@ Pattern 1: Uses recursion, left and right tree
 Pattern 2: Using Queue and 2 Dimensional vector to store nodes level wise
   1. Level order Traversal
   2. Zigzag order traversal
+  3. Left/Right side view of tree using level order traversal
 
 Pattern 3: Using stack
   1. Iterative traversal approach for pre, post and in order uses stack.
 
 
 TODO Checker:
-1. ZigZagTreeTraversal.cpp --> without the use of reverse mathod
-2. HeightOfBinaryTree.cpp  --> Using level order traversal
+1. ZigZagTreeTraversal.cpp  --> without the use of reverse mathod
+2. HeightOfBinaryTree.cpp   --> Using level order traversal
+3. LeftSideView.cpp         --> based on RightSideView.cpp
