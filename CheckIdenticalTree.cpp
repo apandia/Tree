@@ -1,89 +1,70 @@
 #include<iostream>
-#include<queue>
-#include <vector>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/*Tree2
-    1
-  /   \
- 2     3
-      / \
-     4   5
+/*Check Identical Binary Tree
+Input Tree1:                Input Tree2:
+        1                           1
+       / \                         / \
+      2   3                       2   3
+       \   \                       \   \
+        4   5                       4   5
+       /                           /
+      6                           6
 */
 
-/*Tree Input
-1
-2 3
--1 -1
-4 5
--1 -1
--1 -1
-*/
-Node* buildTree()
+//Recursive Approach :
+//TC - O(N)
+//SC - O(H), O(N) for skewed tree
+bool checkIdenticalTree(Node* tree1, Node* tree2)
 {
-	int d;
-	cin >> d;
+    if((tree1 == nullptr) || (tree2 == nullptr))
+        return (tree1 == tree2);
 
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
-
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
-
-		int c1, c2;
-		cin >> c1 >> c2;
-
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
-
-	return root;
-}
-
-bool isIdenticalTree(Node* tree1, Node* tree2)
-{
-	if ((tree1 == nullptr) || (tree2 == nullptr)) {
-		return (tree1 == tree2);
-	}
-
-	return ((tree1->data == tree2->data) && isIdenticalTree(tree1->left, tree2->left) && isIdenticalTree(tree1->right, tree2->right));
+    return ((tree1->data == tree2->data)
+            && checkIdenticalTree(tree1->left, tree2->left)
+            && checkIdenticalTree(tree1->right, tree2->right));
 }
 
 //Driver function
-int main() {
-	cout << "First tree: " << endl;
-	Node* tree1 = buildTree();
+int main()
+{
+    Node* tree1 = new Node(1);
 
-	cout << "Second tree: " << endl;
-	Node* tree2 = buildTree();
+    tree1->left = new Node(2);
+    tree1->left->right = new Node(4);
+    tree1->left->right->left = new Node(6);
 
-	if (isIdenticalTree(tree1, tree2))
-		cout << "Trees Aare Identical" << endl;
-	else
-		cout << "Trees are not identical" << endl;
+    tree1->right = new Node(3);
+    tree1->right->right = new Node(5);
 
-	return 0;
+    Node* tree2 = new Node(1);
+
+    tree2->left = new Node(2);
+    tree2->left->right = new Node(4);
+    tree2->left->right->left = new Node(6);
+
+    tree2->right = new Node(3);
+    tree2->right->right = new Node(5);
+
+    if(checkIdenticalTree(tree1,tree2))
+        cout<<"Both trees are identical"<<endl;
+    else
+        cout<<"Both trees are not identical"<<endl;
+
+    return 0;
 }
