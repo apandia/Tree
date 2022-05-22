@@ -41,7 +41,10 @@ Input Tree:
 //Level[3] : 8
 
 //Note: here sorting is considered only based on values and not based on row and column position
-//For problem based on rows and column sorting refer: https://github.com/apandia/Leetcode/blob/main/Tree/LC987_VerticalOrderTraversal.cpp
+//For problem based on rows and column sorting refer: 
+    //https://github.com/apandia/Leetcode/blob/main/Tree/LC987_VerticalOrderTraversal.cpp
+                                        //OR
+    //https://github.com/apandia/Tree/blob/main/VerticalOrderTraversalLeetcode.cpp
 
 //TC: O(N)
 //SC: O(N)
