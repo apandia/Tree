@@ -16,8 +16,14 @@ Pattern 2: Using Queue and 2 Dimensional vector to store nodes level wise
 Pattern 3: Using stack
   1. Iterative traversal approach for pre, post and in order uses stack.
 
+Pattern 4:
+  1. Vertical order traversal
+  2. Top view of tree
+  3. Bottom view of tree
+
 
 TODO Checker:
 1. ZigZagTreeTraversal.cpp  --> without the use of reverse mathod
 2. HeightOfBinaryTree.cpp   --> Using level order traversal
 3. LeftSideView.cpp         --> based on RightSideView.cpp
+4. VerticalOrderTraversalInterative.cpp --> Implement vertical order traversal using iterative level order traversal approach
