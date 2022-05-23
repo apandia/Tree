@@ -1,113 +1,85 @@
-#include<iostream>
-#include<queue>
-#include <vector>
+#include <iostream>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/*Tree2 input
-    1
-  /   \
- 2      3
-       / \
-      4   5
+//Create Mirror tree
+/*
+Input Tree: 2 1 4 3 5 (inorder traversal)
+         1
+        / \
+       2   3
+          / \
+         4
+Output Tree: 5 3 4 1 2 (inorder traversal)
+         1
+        / \
+       3   2
+      / \
+     5   4
 */
 
-/*Tree2 input
-     1
-   /   \
-  3      2
- / \
-5   4
-*/
-
-/*Tree Input
-1
-2 3
--1 -1
-4 5
-6 7
--1 -1
--1 -1
-*/
-Node* buildTree()
+//TC: O(N)
+//SC: O(N) (for skewed tree)
+void mirrorTree(Node* root)
 {
-	int d;
-	cin >> d;
+    if(root == nullptr)
+        return;
 
-	Node* root = new Node(d);
-	queue<Node*> q;
-	q.push(root);
+    mirrorTree(root->left);
+    mirrorTree(root->right);
 
-	while (!q.empty()) {
-		Node* current = q.front();
-		q.pop();
-
-		int c1, c2;
-		cin >> c1 >> c2;
-
-		if (c1 != -1) {
-			current->left = new Node(c1);
-			q.push(current->left);
-		}
-		if (c2 != -1) {
-			current->right = new Node(c2);
-			q.push(current->right);
-		}
-	}
-
-	return root;
+    //swap left and right node
+    Node* tmp = root->left;
+    root->left = root->right;
+    root->right = tmp;
 }
 
-void mirror(Node *root)
+void inOrderPrint(Node* root)
 {
-	if (root == nullptr) {
-		return;
-	}
+    if(root == nullptr)
+        return;
 
-	mirror(root->left);
-	mirror(root->right);
-
-	//swap left and right child
-	Node* temp = root->left;
-	root->left = root->right;
-	root->right = temp;
-}
-
-void intOrderPrint(Node *root)
-{
-	if (root == nullptr)
-	{
-		return;
-	}
-
-	intOrderPrint(root->left);
-	cout << root->data << " ";
-	intOrderPrint(root->right);
+    inOrderPrint(root->left);
+    cout<<root->data<<" ";
+    inOrderPrint(root->right);
 }
 
 //Driver function
-int main() {
-	Node* root = buildTree();
-	cout << "Inorder traversal of tree:" << endl;
-	intOrderPrint(root);
+int main()
+{
+    Node* root = new Node(1);
 
-	mirror(root);
-	cout << "\nInorder traversal of mirror tree:" << endl;
-	intOrderPrint(root);
+    root->left = new Node(2);
 
-	return 0;
+    root->right = new Node(3);
+    root->right->left = new Node(4);
+    root->right->right = new Node(5);
+
+    cout<<"Input tree is (inorder traversal): ";
+    inOrderPrint(root);
+    cout<<endl;
+
+    //Mirror of tree
+    mirrorTree(root);
+
+    cout<<"Mirror tree is (inorder traversal): ";
+    inOrderPrint(root);
+    cout<<endl;
+
+
+    return 0;
 }
