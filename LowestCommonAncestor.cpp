@@ -1,95 +1,146 @@
-#include<iostream>
-#include<queue>
-#include<map>
+#include <iostream>
 
 using namespace std;
 
 class Node {
 
 public:
-	int data;
-	Node* left;
-	Node* right;
+    int data;
+    Node* left;
+    Node* right;
 
-	Node(int d) {
-		data = d;
-		left = nullptr;
-		right = nullptr;
-	}
+    Node(int d) {
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    }
 };
 
-/* Complexity:
- * TC - O(N)
- * SC - O(N)
- */
-Node* lowestCommonAncestor(Node* root, int value1, int value2)
+//Lowest common ancestor
+/*
+Input Tree:
+         1
+        / \
+       2   3
+          / \
+         4   5
+        / \
+       6   7
+          /
+         8
+
+Lowest common ancestor between 8 and 5 = 3
+Lowest common ancestor between 8 and 2 = 1
+Lowest common ancestor between 8 and 4 = 4
+*/
+
+//TC: O(N)
+//SC: O(H) (O(N) for skewed tree)
+Node* lowestCommonAncestorForNodes(Node* root, Node* p, Node* q)
 {
-	if (root == nullptr) {
-		return root;
-	}
+    if((root == nullptr) || (root == p) || (root == q))
+        return root;
 
-	if (root->data == value1 || root->data == value2) {
-		return root;
-	}
+    Node* left = lowestCommonAncestorForNodes(root->left, p, q);
+    Node* right = lowestCommonAncestorForNodes(root->right, p, q);
 
-	Node* left = lowestCommonAncestor(root->left, value1, value2);
-	Node* right = lowestCommonAncestor(root->right, value1, value2);
-
-	//If in place of values nodes are given then use below code in place of code above
-	/*
-	if(root == nullptr || node1 == nullptr || node2 == nullptr)
-	{
-		return root;
-	}
-
-	Node* left = lowestCommonAncestor(root->left, node1, node2);
-	Node* right = lowestCommonAncestor(root->right, node1, node2);
-	*/
-
-	if (left == nullptr) {
-		return right;
-	}
-	else if(right == nullptr) {
-		return left;
-	}
-	else {
-		return root;
-	}
+    if(left == nullptr){
+        return right;
+    }
+    else if(right == nullptr){
+        return left;
+    }
+    else {
+        return root;
+    }
 }
 
+Node* lowestCommonAncestorForValues(Node* root, int p, int q)
+{
+    if((root == nullptr) || (root->data == p) || (root->data == q))
+        return root;
+
+    Node* left = lowestCommonAncestorForValues(root->left, p, q);
+    Node* right = lowestCommonAncestorForValues(root->right, p, q);
+
+    if(left == nullptr){
+        return right;
+    }
+    else if(right == nullptr){
+        return left;
+    }
+    else {
+        return root;
+    }
+}
 
 //Driver function
 int main()
 {
-/*
-        1
-      /   \
-	 2     3
-    / \   / \
-   4   5 6   7
-    \
-     8
+    Node* root = new Node(1);
 
-   lca(8, 5) = 2
-   lca(6, 3) = 3
-*/
+    root->left = new Node(2);
 
-	Node* root = new Node(1);
+    root->right = new Node(3);
+    root->right->left = new Node(4);
+    root->right->right = new Node(5);
 
-	root->left = new Node(2);
-	root->left->left = new Node(4);
-	root->left->right = new Node(5);
-	root->left->left->right = new Node(8);
+    root->right->left->left = new Node(6);
+    root->right->left->right = new Node(7);
 
-	root->right = new Node(3);
-	root->right->left = new Node(6);
-	root->right->right = new Node(7);	
+    root->right->left->right->left = new Node(8);
 
-	Node* lca = lowestCommonAncestor(root, 8, 5);
-	cout << "LCA of 8 and 5 = "<<lca->data<<endl;
+    cout<<"Lowest common ancestor using node pointer"<<endl;
+    cout<<"Lowest common ancestor between 8 and 5 = ";
+    Node* lca = lowestCommonAncestorForNodes(root, root->right->left->right->left, root->right->right);
 
-	lca = lowestCommonAncestor(root, 6, 3);
-	cout << "LCA of 6 and 3 = " << lca->data;
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
 
-	return 0;
+
+    cout<<"Lowest common ancestor between 8 and 2 = ";
+    lca = lowestCommonAncestorForNodes(root, root->right->left->right->left, root->left);
+
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
+
+    cout<<"Lowest common ancestor between 8 and 4 = ";
+    lca = lowestCommonAncestorForNodes(root, root->right->left->right->left, root->right->left);
+
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
+
+    cout<<endl;
+    cout<<"Lowest common ancestor using node value"<<endl;
+    cout<<"Lowest common ancestor between 8 and 5 = ";
+    lca = lowestCommonAncestorForValues(root, 8, 5);
+
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
+
+    cout<<"Lowest common ancestor between 8 and 2 = ";
+    lca = lowestCommonAncestorForValues(root, 8, 2);
+
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
+
+    cout<<"Lowest common ancestor between 8 and 4 = ";
+    lca = lowestCommonAncestorForValues(root, 8, 4);
+
+    if(lca != nullptr)
+        cout<<lca->data<<endl;
+    else
+        cout<<"There is no common ancestor"<<endl;
+
+    return 0;
 }
