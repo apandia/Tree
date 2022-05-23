@@ -21,6 +21,10 @@ Pattern 4:
   2. Top view of tree
   3. Bottom view of tree
 
+Pattern 5:
+  1. Check identical tree
+  2. Check symmetrical tree
+
 
 TODO Checker:
 1. ZigZagTreeTraversal.cpp  --> without the use of reverse mathod
