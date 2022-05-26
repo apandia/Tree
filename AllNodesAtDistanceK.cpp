@@ -21,7 +21,7 @@ public:
 
 // All nodes at distance K from a specific node
 /*
-Input Tree:
+Input Tree1:
            3
         /    \
        /      \
@@ -38,6 +38,15 @@ OutPut: 7 4 1
 
 Input: node=3, k=2
 OutPut: 6 2 0 8
+
+Input Tree2:
+         0
+        / \
+       2   1
+          /
+         3
+Input: node=3, k=3
+OutPut: 2
 */
 
 /* Time Complexity:
@@ -140,19 +149,19 @@ vector<int> nodesAtDistanceK(Node* root, Node* target, int k)
 //Driver function
 int main()
 {
-    Node* root = new Node(3);
+    Node* root1 = new Node(3);
 
-    root->left = new Node(5);
-    root->left->left = new Node(6);
-    root->left->right = new Node(2);
-    root->left->right->left = new Node(7);
-    root->left->right->right = new Node(4);
+    root1->left = new Node(5);
+    root1->left->left = new Node(6);
+    root1->left->right = new Node(2);
+    root1->left->right->left = new Node(7);
+    root1->left->right->right = new Node(4);
 
-    root->right = new Node(1);
-    root->right->left = new Node(0);
-    root->right->right = new Node(8);
+    root1->right = new Node(1);
+    root1->right->left = new Node(0);
+    root1->right->right = new Node(8);
 
-    vector<int> nodes = nodesAtDistanceK(root, root->left, 2);
+    vector<int> nodes = nodesAtDistanceK(root1, root1->left, 2);
 
     cout << "Nodes at distance 2 from node[5] = : ";
     for(auto node : nodes)
@@ -160,7 +169,7 @@ int main()
 
     cout<<endl;
 
-    nodes = nodesAtDistanceK(root, root, 2);
+    nodes = nodesAtDistanceK(root1, root1, 2);
 
     cout << "Nodes at distance 2 from root node[3] = : ";
     for(auto node : nodes)
