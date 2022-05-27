@@ -53,7 +53,6 @@ OutPut: 5 (max time is 5 for path 7->4->2->1->3->5, 7->4->2->1->3->6)
  */
 //TC: O(N)
 //SC: O(N) overall complexity
-//Driver function
 void markParents(Node* root, unordered_map<Node*, Node*>& parentMap)
 {
     queue<Node*> q;
@@ -132,6 +131,7 @@ int minTimeToBurnBinaryTree(Node* root, Node* source)
     return minTime;
 }
 
+//Driver function
 int main()
 {
     Node* root = new Node(1);
