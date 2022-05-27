@@ -25,6 +25,10 @@ Pattern 5:
   1. Check identical tree
   2. Check symmetrical tree
 
+Pattern 6:
+  1. AllNodesAtDistanceK.cpp
+  2. MinTimeToBurnBinaryTree.cpp
+
 
 TODO Checker:
 1. ZigZagTreeTraversal.cpp  --> without the use of reverse mathod
