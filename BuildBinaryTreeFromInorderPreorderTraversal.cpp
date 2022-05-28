@@ -19,8 +19,8 @@ public:
     }
 };
 
-//Maximum width of binary tree
-/*
+
+/* Build binary tree from inorder and preorder traversal
 inorder =  [9,3,15,20,7]
 preorder = [3,9,20,15,7]
 
@@ -56,6 +56,9 @@ Node* buildTreeRecursive(vector<int>& preorder, int preStart, int preEnd,
 
 Node* buildTree(vector<int>& preorder, vector<int>& inorder)
 {
+    if(preorder.size() != inorder.size())
+        return nullptr;
+    
     unordered_map<int, int> inorderMap;
 
     for(int i = 0; i < inorder.size(); i++)
