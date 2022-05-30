@@ -38,3 +38,4 @@ TODO Checker:
 5. Remove not require includes from program files
 6. Serialize deserialize BT using preorder traversal
 7. Morris traversal postorder
+8. Flatten binary tree solution using iterative and Morris approach
