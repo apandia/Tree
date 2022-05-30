@@ -30,7 +30,8 @@ public:
  *              2.1.1.2 make current = current->left
  *          2.1.2 if right most node already pointing to current/root node
  *              2.1.2.1 remove the thread
- *              2.1.2.2 move to right
+ *              2.1.2.2 print node
+ *              2.1.2.3 move to right
  */
 
 /*
