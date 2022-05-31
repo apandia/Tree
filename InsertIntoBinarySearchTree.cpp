@@ -33,7 +33,7 @@ Tree after Inserting 5 (Preorder) - 4 2 1 3 7 5
 
 //TC: O(log N) (Base 2)
 //SC: O(N)
-Node* InsertIntoBST(Node* root, int key)
+Node* insertIntoBST(Node* root, int key)
 {
     if(root == nullptr)
         return new Node(key);
@@ -94,7 +94,7 @@ int main()
     preorderPrint(root);
     cout<<endl;
 
-    root = InsertIntoBST(root, 5);
+    root = insertIntoBST(root, 5);
 
     cout<<"Tree after inserting 5 = ";
     preorderPrint(root);
