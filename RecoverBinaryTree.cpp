@@ -28,8 +28,8 @@ Input Tree:
 
 */
 
-//TC: O(N)
-//SC: O(N) O(1) with Morris traversal
+//TC:
+//SC:
 
 class Solution{
 public:
