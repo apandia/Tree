@@ -38,8 +38,12 @@ bSTIterator.next() = 20
 bSTIterator.hasNext() = False
 */
 
+//Simple brute force solution is to have all the nodes stored in a vector using inorder traversal and
+//basedon that implement next() and hasNext(). TC will be O(1) for next() and hasNext() but SC will be
+//O(N) as all elements will be store in inorder format.
+
 //Here we are pushing only some elements to stack. and lets say N elements are pushed
-//and thre are N next() call, the the time complexity will be O(N/N) = O(1)
+//and thre are N next() call, then the time complexity will be O(N/N) = O(1)
 
 //TC: O(1)
 //SC: O(H)
