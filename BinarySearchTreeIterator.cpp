@@ -17,7 +17,7 @@ public:
     }
 };
 
-// Find Inorder Successor and Predecessor of a node in BST
+// Binary Search Tree Iterator
 /*
 Input Tree:
                     7
